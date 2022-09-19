@@ -1,25 +1,66 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
+import Home from './Components/Home/Home';
+import Navbar from './Components/Navbar/Navbar';
+import { ThemeContext } from './ContextProvider/ThemeContext';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        Dilip singh Portfolio
-        </a>
-      </header>
-    </div>
-  );
+	const [state, setState] = useState(false);
+	const { newTheme, open, handleMenu } =
+		React.useContext(ThemeContext);
+	const scrollRef = useRef();
+
+	useEffect(() => {
+		setTimeout(() => {
+			setState(true);
+		}, 3000);
+	}, []);
+
+	return (
+		<React.Fragment>{!state ? (<div style={{background: `${newTheme.background}`,}} className='logoStart'>
+					<img
+					className='s_logo'
+						src='https://media.istockphoto.com/vectors/letter-d-icon-vector-id1278558119?k=20&m=1278558119&s=612x612&w=0&h=b7RGh-if-ie6zP_TS_EcN48xmiaLXHK9WTIN5i9c98c='
+						alt='logo'
+					/>
+				</div>
+			) : (
+				<div className='components'>
+					<div
+						style={{
+							background: `${newTheme.menuBackground}`,
+							color: `${newTheme.title}`,
+							left: `${open ? '-100vw' : '0'}`,
+						}}
+						className='links'
+					>
+						<a onClick={handleMenu} href='#home'>
+							Home
+						</a>
+						<a onClick={handleMenu} href='#about'>
+							About
+						</a>
+						{/* <a onClick={handleMenu} href='#experience'>
+							Experience
+						</a> */}
+
+						<a onClick={handleMenu} href='#projects'>
+							Projects
+						</a>
+						<a onClick={handleMenu} href='#techStacks'>
+							Profeciencies
+						</a>
+						<a onClick={handleMenu} href='#contact'>
+							Contact
+						</a>
+					</div>
+					<Navbar />
+					<Home scrollRef={scrollRef} />
+				</div>
+			)}
+		</React.Fragment>
+	);
 }
 
 export default App;
