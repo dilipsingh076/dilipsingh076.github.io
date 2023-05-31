@@ -26,6 +26,7 @@ const Calendar = () => {
           year={new Date().getFullYear()}
         />
       </div>
+      
       <div>
         <h1 style={{color:newTheme.title}}>My Github Stats</h1>
         <div>
