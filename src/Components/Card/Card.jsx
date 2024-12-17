@@ -118,7 +118,7 @@ const Card = (props) => {
 									rel='noopener noreferrer'
 									target='_blank'
 								>
-									Github
+									<i className='fas fa-external-link-alt' />
 								</a>
 								<a
 									href={live}
