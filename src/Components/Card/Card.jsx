@@ -145,10 +145,10 @@ const Card = (props) => {
 					className={styles.description}
 				>
 					<a href={gitHub} rel='noopener noreferrer' target='_blank'>
-						<i className='fa-brands fa-github' />
+						<i className='fa-brands fa-github' /> Github
 					</a>
 					<a href={live} rel='noopener noreferrer' target='_blank'>
-						<i className='fas fa-external-link-alt' />
+						<i className='fas fa-external-link-alt' /> Share
 					</a>
 				</div>
 			</div>
