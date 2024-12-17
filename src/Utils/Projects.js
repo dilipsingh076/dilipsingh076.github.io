@@ -1,4 +1,5 @@
 import { images } from "../constants";
+
 export const projects = [
     {
       img: images.ideakart,
