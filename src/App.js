@@ -36,7 +36,7 @@ function App() {
 						className='links'
 					>
 						<a onClick={handleMenu} href='#home'>
-							Home ss
+							Home
 						</a> 
 						<a onClick={handleMenu} href='#about'>
 							About
