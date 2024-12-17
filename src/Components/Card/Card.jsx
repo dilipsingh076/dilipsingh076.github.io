@@ -118,7 +118,7 @@ const Card = (props) => {
 									rel='noopener noreferrer'
 									target='_blank'
 								>
-									<i className='fab fa-github' />
+									Github
 								</a>
 								<a
 									href={live}
