@@ -145,7 +145,7 @@ const Card = (props) => {
 					className={styles.description}
 				>
 					<a href={gitHub} rel='noopener noreferrer' target='_blank'>
-						<i className='fab fa-github' />
+						<i className='fa-brands fa-github' />
 					</a>
 					<a href={live} rel='noopener noreferrer' target='_blank'>
 						<i className='fas fa-external-link-alt' />
