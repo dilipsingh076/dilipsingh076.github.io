@@ -172,40 +172,37 @@ theme: {
 
 ## 🚀 Deployment
 
-### GitHub Pages (Recommended)
+### Vercel Deployment (Recommended)
 
-1. **Push your code to GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+This project is optimized for Vercel deployment. Follow these steps:
 
-2. **Deploy to GitHub Pages**
-   ```bash
-   npm run deploy
-   ```
+1. **Push to GitHub**: Ensure your code is in the `vercel-master` branch
+2. **Connect to Vercel**: 
+   - Go to [vercel.com](https://vercel.com)
+   - Import your GitHub repository
+   - **Important**: Set the production branch to `vercel-master`
+   - Vercel will auto-detect Next.js configuration
+3. **Configure Environment Variables**: Add your environment variables in Vercel dashboard
+4. **Deploy**: Vercel will automatically build and deploy your project from the `vercel-master` branch
 
-3. **Configure GitHub Pages**
-   - Go to your repository settings
-   - Navigate to "Pages" section
-   - Set source to "Deploy from a branch"
-   - Select "gh-pages" branch
-   - Save the settings
+For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)
 
-4. **Your site will be available at**
-   `https://dilipsingh076.github.io`
+### Environment Variables
 
-### Alternative Deployment Options
+Copy `env.template` to `.env.local` and configure:
 
-#### Vercel
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Deploy automatically
+```bash
+# MongoDB Configuration
+MONGODB_URI=your-mongodb-connection-string
+MONGODB_DB_NAME=portfolio
 
-#### Netlify
-1. Build the project: `npm run build`
-2. Deploy the `out` directory
+# Email Configuration
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+
+# Site Configuration
+NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
+```
 
 ## 📱 Responsive Design
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Dilip Singh's Senior Developer Portfolio - Built with Next.js and TypeScript",
   "private": true,
-  "homepage": "https://dilipsingh076.github.io",
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,12 +12,10 @@
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d out",
-    "export": "next build && next export",
     "seed": "node scripts/seed-blogs.js",
     "seed-data": "node scripts/seed-data.js",
-    "seed-api": "node scripts/seed-via-api.js"
+    "seed-api": "node scripts/seed-via-api.js",
+    "deploy": "./deploy-vercel.sh"
   },
   "dependencies": {
     "@emailjs/browser": "^3.7.0",
@@ -56,7 +54,7 @@
     "autoprefixer": "^10.4.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
-    "gh-pages": "^6.3.0",
+
     "postcss": "^8.4.0",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.0",

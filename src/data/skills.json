@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "React",
+    "category": "Frontend",
+    "level": 90,
+    "icon": "react",
+    "description": "Modern React with hooks and functional components"
+  },
+  {
+    "id": "2",
+    "name": "TypeScript",
+    "category": "Language",
+    "level": 85,
+    "icon": "typescript",
+    "description": "Type-safe JavaScript development"
+  },
+  {
+    "id": "3",
+    "name": "Next.js",
+    "category": "Framework",
+    "level": 88,
+    "icon": "nextjs",
+    "description": "Full-stack React framework"
+  }
+]
