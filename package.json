@@ -1,61 +1,68 @@
 {
-  "name": "dilipportfolio",
-  "version": "0.1.0",
-  "homepage": "https://dilipsingh076.github.io",
+  "name": "dilip-singh-portfolio",
+  "version": "1.0.0",
+  "description": "Dilip Singh's Senior Developer Portfolio - Built with Next.js and TypeScript",
   "private": true,
+  "homepage": "https://dilipsingh076.github.io",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out",
+    "export": "next build && next export",
+    "seed": "node scripts/seed-blogs.js",
+    "seed-data": "node scripts/seed-data.js",
+    "seed-api": "node scripts/seed-via-api.js"
+  },
   "dependencies": {
     "@emailjs/browser": "^3.7.0",
-    "@material-ui/core": "^4.12.4",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@reduxjs/toolkit": "^2.8.2",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^20.0.0",
+    "@types/nodemailer": "^7.0.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "aos": "^2.3.4",
-    "axios": "^0.27.2",
-    "framer-motion": "^7.3.5",
-    "node-sass": "^7.0.3",
+    "axios": "^1.6.0",
+    "clsx": "^2.0.0",
+    "dotenv": "^17.2.1",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.541.0",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.18.0",
+    "next": "^14.0.0",
+    "next-themes": "^0.4.6",
+    "nodemailer": "^7.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-github-calendar": "^4.0.0",
-    "react-helmet": "^6.1.0",
-    "react-icons": "^4.4.0",
-    "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "react-scrollmagic": "^2.3.0",
-    "react-spinners": "^0.13.8",
+    "react-icons": "^4.12.0",
+    "react-intersection-observer": "^9.5.0",
+    "react-redux": "^9.2.0",
     "react-toastify": "^9.1.3",
     "react-vanilla-tilt": "^1.0.0",
-    "redux": "^4.2.0",
-    "web-vitals": "^2.1.4",
-    "webpack": "^5.74.0"
-  },
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "tailwind-merge": "^2.0.0",
+    "typescript": "^5.0.0"
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.4.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.0",
+    "tailwindcss": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
