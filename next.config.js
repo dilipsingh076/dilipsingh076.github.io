@@ -13,6 +13,7 @@ const nextConfig = {
   compress: true,
   reactStrictMode: true,
   swcMinify: true,
+  output: 'export',
 }
 
 module.exports = nextConfig
