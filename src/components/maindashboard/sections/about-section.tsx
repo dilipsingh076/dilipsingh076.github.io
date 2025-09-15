@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiBriefcase, FiBookOpen, FiAward } from 'react-icons/fi';
-import { EXPERIENCES, EDUCATION, ACHIEVEMENTS } from '@/constants/data';
+import { EXPERIENCES, EDUCATION, ACHIEVEMENTS, ABOUT_STATS, ABOUT_CONTENT } from '../constants';
+import { Button } from '@/components/common';
 
 export function AboutSection(): JSX.Element {
   const [ref, inView] = useInView({
@@ -23,11 +23,10 @@ export function AboutSection(): JSX.Element {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-            About <span className="gradient-text">Me</span>
+            {ABOUT_CONTENT.title} <span className="gradient-text">Me</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            A passionate developer who transforms ideas into digital reality. 
-            Every line of code tells a story of innovation and dedication.
+            {ABOUT_CONTENT.subtitle} {ABOUT_CONTENT.description}
           </p>
         </motion.div>
 
@@ -38,22 +37,14 @@ export function AboutSection(): JSX.Element {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
-          <div className="bg-background rounded-xl p-6 border border-border text-center hover:border-primary/30 transition-colors">
-            <div className="text-3xl font-bold text-primary mb-2">4+</div>
-            <div className="text-sm text-muted-foreground">Years Experience</div>
-          </div>
-          <div className="bg-background rounded-xl p-6 border border-border text-center hover:border-primary/30 transition-colors">
-            <div className="text-3xl font-bold text-primary mb-2">50+</div>
-            <div className="text-sm text-muted-foreground">Projects Delivered</div>
-          </div>
-          <div className="bg-background rounded-xl p-6 border border-border text-center hover:border-primary/30 transition-colors">
-            <div className="text-3xl font-bold text-primary mb-2">{ACHIEVEMENTS.length}</div>
-            <div className="text-sm text-muted-foreground">Awards Won</div>
-          </div>
-          <div className="bg-background rounded-xl p-6 border border-border text-center hover:border-primary/30 transition-colors">
-            <div className="text-3xl font-bold text-primary mb-2">100%</div>
-            <div className="text-sm text-muted-foreground">Success Rate</div>
-          </div>
+          {ABOUT_STATS.map((stat, index) => (
+            <div key={index} className="bg-background rounded-xl p-6 border border-border text-center hover:border-primary/30 transition-colors">
+              <div className="text-3xl font-bold text-primary mb-2">
+                {stat.value === 'ACHIEVEMENTS_COUNT' ? ACHIEVEMENTS.length : stat.value}
+              </div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            </div>
+          ))}
         </motion.div>
 
         {/* Main Content - Experience and Education */}
@@ -66,7 +57,7 @@ export function AboutSection(): JSX.Element {
             className="lg:col-span-2"
           >
             <div className="bg-background rounded-2xl border border-border p-8">
-              <h3 className="text-2xl font-bold mb-8">Professional Experience</h3>
+              <h3 className="text-2xl font-bold mb-8">{ABOUT_CONTENT.experience.title}</h3>
 
               <div className="space-y-8">
                 {EXPERIENCES.map((experience, index) => (
@@ -129,7 +120,7 @@ export function AboutSection(): JSX.Element {
             transition={{ delay: 0.5, duration: 0.6 }}
           >
             <div className="bg-background rounded-2xl border border-border p-6">
-              <h3 className="text-xl font-bold mb-6">Education</h3>
+              <h3 className="text-xl font-bold mb-6">{ABOUT_CONTENT.education.title}</h3>
 
               <div className="space-y-4">
                 {EDUCATION.map((edu, index) => (
@@ -159,9 +150,9 @@ export function AboutSection(): JSX.Element {
         >
           <div className="bg-background rounded-2xl border border-border p-8">
             <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold mb-4">Achievements & Recognition</h3>
+              <h3 className="text-3xl font-bold mb-4">{ABOUT_CONTENT.achievements.title}</h3>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Milestones and accomplishments that highlight my dedication to excellence in software development
+                {ABOUT_CONTENT.achievements.description}
               </p>
             </div>
 
@@ -185,6 +176,16 @@ export function AboutSection(): JSX.Element {
               ))}
             </div>
           </div>
+        </motion.div>
+
+        {/* View Full About Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="text-center mt-12"
+        >
+          <Button href={ABOUT_CONTENT.button.href}>{ABOUT_CONTENT.button.text}</Button>
         </motion.div>
       </div>
     </section>

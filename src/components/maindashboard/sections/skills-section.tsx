@@ -3,18 +3,19 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiCode, FiDatabase, FiServer, FiCloud, FiTool, FiTrendingUp } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
-import { Skill } from '@/app/skills/types';
+import { Button } from '@/components/common';
+import { SKILL_CATEGORIES, SKILLS_CONTENT, PROFICIENCY_COLORS, PROGRESS_COLORS } from '../constants';
+import { useSkillsData } from '@/hooks';
 
-const categories = [
-  { id: 'all', label: 'All Skills', icon: FiCode, count: 0 },
-  { id: 'frontend', label: 'Frontend', icon: FiCode, count: 0 },
-  { id: 'backend', label: 'Backend', icon: FiServer, count: 0 },
-  { id: 'database', label: 'Database', icon: FiDatabase, count: 0 },
-  { id: 'devops', label: 'DevOps', icon: FiCloud, count: 0 },
-  { id: 'tools', label: 'Tools', icon: FiTool, count: 0 },
-];
+// Local interface for skills section (includes id and category)
+interface SkillWithMeta {
+  id: string;
+  name: string;
+  proficiency: number;
+  category: string;
+}
+
 
 export function SkillsSection(): JSX.Element {
   const [ref, inView] = useInView({
@@ -23,41 +24,50 @@ export function SkillsSection(): JSX.Element {
   });
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [skills, setSkills] = useState<SkillWithMeta[]>([]);
+  const { data: skillsData, loading, error } = useSkillsData();
 
   useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await fetch('/api/skills/');
-        const data = await response.json();
-        setSkills(data);
-      } catch (error) {
-        console.error('Error fetching skills:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSkills();
-  }, []);
+    if (skillsData) {
+      // Map category titles to maindashboard category IDs
+      const categoryMapping: { [key: string]: string } = {
+        'Frontend Development': 'frontend',
+        'Backend Development': 'backend',
+        'Database & Cloud': 'database',
+        'Mobile Development': 'frontend', // Map mobile to frontend for now
+        'Tools & Technologies': 'tools',
+      };
+      
+      // Flatten all skills from categories into a single array
+      const allSkills: SkillWithMeta[] = skillsData.categories.flatMap(category => 
+        category.skills.map(skill => ({
+          ...skill,
+          id: `${category.title.toLowerCase().replace(/\s+/g, '-')}-${skill.name.toLowerCase().replace(/\s+/g, '-')}`,
+          category: categoryMapping[category.title] || 'tools'
+        }))
+      );
+      setSkills(allSkills);
+    } else {
+      setSkills([]);
+    }
+  }, [skillsData]);
 
   const filteredSkills = selectedCategory === 'all' 
     ? skills 
     : skills.filter(skill => skill.category === selectedCategory);
 
   const getProficiencyColor = (proficiency: number) => {
-    if (proficiency >= 90) return 'text-emerald-600 bg-emerald-50 border-emerald-200';
-    if (proficiency >= 75) return 'text-blue-600 bg-blue-50 border-blue-200';
-    if (proficiency >= 60) return 'text-amber-600 bg-amber-50 border-amber-200';
-    return 'text-gray-600 bg-gray-50 border-gray-200';
+    if (proficiency >= SKILLS_CONTENT.proficiency.thresholds.expert) return PROFICIENCY_COLORS.expert;
+    if (proficiency >= SKILLS_CONTENT.proficiency.thresholds.advanced) return PROFICIENCY_COLORS.advanced;
+    if (proficiency >= SKILLS_CONTENT.proficiency.thresholds.intermediate) return PROFICIENCY_COLORS.intermediate;
+    return PROFICIENCY_COLORS.beginner;
   };
 
   const getProficiencyLabel = (proficiency: number) => {
-    if (proficiency >= 90) return 'Expert';
-    if (proficiency >= 75) return 'Advanced';
-    if (proficiency >= 60) return 'Intermediate';
-    return 'Beginner';
+    if (proficiency >= SKILLS_CONTENT.proficiency.thresholds.expert) return SKILLS_CONTENT.proficiency.labels.expert;
+    if (proficiency >= SKILLS_CONTENT.proficiency.thresholds.advanced) return SKILLS_CONTENT.proficiency.labels.advanced;
+    if (proficiency >= SKILLS_CONTENT.proficiency.thresholds.intermediate) return SKILLS_CONTENT.proficiency.labels.intermediate;
+    return SKILLS_CONTENT.proficiency.labels.beginner;
   };
 
   if (loading) {
@@ -66,7 +76,7 @@ export function SkillsSection(): JSX.Element {
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-3 border-blue-600 border-t-transparent mx-auto"></div>
-            <p className="mt-6 text-lg text-gray-600">Loading skills...</p>
+            <p className="mt-6 text-lg text-gray-600">{SKILLS_CONTENT.loading.text}</p>
           </div>
         </div>
       </section>
@@ -85,15 +95,14 @@ export function SkillsSection(): JSX.Element {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full text-blue-700 text-sm font-medium mb-6">
-            <FiTrendingUp className="w-4 h-4" />
-            Technical Expertise
+            <SKILLS_CONTENT.badge.icon className="w-4 h-4" />
+            {SKILLS_CONTENT.badge.text}
           </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Skills & <span className="text-blue-600">Technologies</span>
+            {SKILLS_CONTENT.title} <span className="text-blue-600">Technologies</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            I&apos;ve worked with a diverse range of technologies and tools throughout my career.
-            Here&apos;s a comprehensive overview of my technical proficiency.
+            {SKILLS_CONTENT.subtitle} {SKILLS_CONTENT.description}
           </p>
         </motion.div>
 
@@ -104,7 +113,7 @@ export function SkillsSection(): JSX.Element {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="flex flex-wrap justify-center gap-3 mb-16"
         >
-          {categories.map((category) => {
+          {SKILL_CATEGORIES.map((category) => {
             const Icon = category.icon;
             const categoryCount = skills.filter(skill => skill.category === category.id).length;
             const isActive = selectedCategory === category.id;
@@ -201,10 +210,10 @@ export function SkillsSection(): JSX.Element {
                         transition={{ delay: index * 0.1 + 0.5, duration: 1.5, ease: "easeOut" }}
                         className={cn(
                           "h-full rounded-full transition-all duration-300",
-                          skill.proficiency >= 90 ? "bg-gradient-to-r from-emerald-500 to-emerald-600" :
-                          skill.proficiency >= 75 ? "bg-gradient-to-r from-blue-500 to-blue-600" :
-                          skill.proficiency >= 60 ? "bg-gradient-to-r from-amber-500 to-amber-600" :
-                          "bg-gradient-to-r from-gray-500 to-gray-600"
+                          skill.proficiency >= SKILLS_CONTENT.proficiency.thresholds.expert ? PROGRESS_COLORS.expert :
+                          skill.proficiency >= SKILLS_CONTENT.proficiency.thresholds.advanced ? PROGRESS_COLORS.advanced :
+                          skill.proficiency >= SKILLS_CONTENT.proficiency.thresholds.intermediate ? PROGRESS_COLORS.intermediate :
+                          PROGRESS_COLORS.beginner
                         )}
                       />
                     </div>
@@ -230,26 +239,36 @@ export function SkillsSection(): JSX.Element {
             <div className="text-3xl font-bold text-blue-600 mb-2">
               {skills.length}
             </div>
-            <div className="text-gray-600 font-medium">Technologies</div>
+            <div className="text-gray-600 font-medium">{SKILLS_CONTENT.stats.technologies}</div>
           </div>
           <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="text-3xl font-bold text-emerald-600 mb-2">
               {skills.length > 0 ? Math.round(skills.reduce((acc, skill) => acc + skill.proficiency, 0) / skills.length) : 0}%
             </div>
-            <div className="text-gray-600 font-medium">Average</div>
+            <div className="text-gray-600 font-medium">{SKILLS_CONTENT.stats.average}</div>
           </div>
           <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="text-3xl font-bold text-amber-600 mb-2">
-              {skills.filter(skill => skill.proficiency >= 90).length}
+              {skills.filter(skill => skill.proficiency >= SKILLS_CONTENT.proficiency.thresholds.expert).length}
             </div>
-            <div className="text-gray-600 font-medium">Expert Level</div>
+            <div className="text-gray-600 font-medium">{SKILLS_CONTENT.stats.expertLevel}</div>
           </div>
           <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="text-3xl font-bold text-purple-600 mb-2">
-              {categories.length - 1}
+              {SKILL_CATEGORIES.length - 1}
             </div>
-            <div className="text-gray-600 font-medium">Categories</div>
+            <div className="text-gray-600 font-medium">{SKILLS_CONTENT.stats.categories}</div>
           </div>
+        </motion.div>
+
+        {/* View All Skills Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="text-center mt-12"
+        >
+          <Button href={SKILLS_CONTENT.button.href}>{SKILLS_CONTENT.button.text}</Button>
         </motion.div>
       </div>
     </section>

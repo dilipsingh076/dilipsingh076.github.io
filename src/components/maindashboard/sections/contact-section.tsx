@@ -6,6 +6,7 @@ import { FiMail, FiPhone, FiMapPin, FiSend, FiCheck, FiAlertCircle } from 'react
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { submitContactForm, clearError, clearSuccess } from '@/store/slices/contactSlice';
 import { ContactForm } from '@/store/slices/contactSlice';
+import { Button } from '@/components/common';
 
 export function ContactSection(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -93,14 +94,14 @@ export function ContactSection(): JSX.Element {
     {
       icon: FiMail,
       title: 'Email',
-      value: 'dilip.singh@example.com',
-      href: 'mailto:dilip.singh@example.com',
+      value: 'dilipsinghf@gmail.com',
+      href: 'mailto:dilipsinghf@gmail.com',
     },
     {
       icon: FiPhone,
       title: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567',
+      value: '+91 7665 135 229',
+      href: 'tel:+917665135229',
     },
     {
       icon: FiMapPin,
@@ -360,6 +361,16 @@ export function ContactSection(): JSX.Element {
             </form>
           </motion.div>
         </div>
+
+        {/* Get In Touch Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="text-center mt-12"
+        >
+          <Button href="/contact">Get In Touch</Button>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,19 +1,58 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowRight, FiDownload } from 'react-icons/fi';
-import { PERSONAL_INFO } from '@/constants/data';
+import { useState, useEffect } from 'react';
+import { PERSONAL_INFO, ROLES } from '../constants';
 import { scrollToElement } from '@/lib/utils';
 import { Logo } from '@/components/ui/logo';
 
-const roles = [
-  'Senior Full Stack Developer',
-  'React & Next.js Specialist',
-  'TypeScript Expert',
-  'MERN Stack Developer',
-];
-
 export function HeroSection(): JSX.Element {
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+  const [displayedText, setDisplayedText] = useState('');
+
+  useEffect(() => {
+    const currentRole = ROLES[currentRoleIndex];
+    let timeoutId: NodeJS.Timeout;
+
+    if (isTyping) {
+      // Typing effect
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex <= currentRole.length) {
+          setDisplayedText(currentRole.slice(0, charIndex));
+          charIndex++;
+        } else {
+          clearInterval(typeInterval);
+          // Wait before starting to erase
+          timeoutId = setTimeout(() => setIsTyping(false), 2000);
+        }
+      }, 100);
+
+      return () => {
+        clearInterval(typeInterval);
+        if (timeoutId) clearTimeout(timeoutId);
+      };
+    } else {
+      // Erasing effect
+      let charIndex = currentRole.length;
+      const eraseInterval = setInterval(() => {
+        if (charIndex >= 0) {
+          setDisplayedText(currentRole.slice(0, charIndex));
+          charIndex--;
+        } else {
+          clearInterval(eraseInterval);
+          // Move to next role and start typing
+          setCurrentRoleIndex((prev) => (prev + 1) % ROLES.length);
+          setIsTyping(true);
+        }
+      }, 50);
+
+      return () => clearInterval(eraseInterval);
+    }
+  }, [currentRoleIndex, isTyping]);
+
   const handleDownloadResume = (): void => {
     window.open(PERSONAL_INFO.resumeUrl, '_blank');
   };
@@ -60,24 +99,37 @@ export function HeroSection(): JSX.Element {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="mb-8"
             >
-              <div className="text-xl sm:text-2xl text-muted-foreground mb-4">
-                I&apos;m a{' '}
-                <span className="relative inline-block">
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
-                    className="text-primary font-semibold"
-                  >
-                    {roles[0]}
-                  </motion.span>
-                  <motion.span
+              <div className="text-xl sm:text-2xl text-muted-foreground mb-4 min-h-[3rem] flex items-center justify-center lg:justify-start">
+                <span className="mr-2">I&apos;m a</span>
+                <div className="relative inline-block">
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={currentRoleIndex}
+                      initial={{ opacity: 0, y: 20, rotateX: -90 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      exit={{ opacity: 0, y: -20, rotateX: 90 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="font-bold text-2xl sm:text-3xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent"
+                    >
+                      {displayedText}
+                      <motion.span
+                        animate={{ opacity: [1, 0, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                        className="text-primary ml-1"
+                      >
+                        |
+                      </motion.span>
+                    </motion.span>
+                  </AnimatePresence>
+                  
+                  {/* Animated underline */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: '100%' }}
-                    transition={{ delay: 0.8, duration: 0.5 }}
-                    className="absolute bottom-0 left-0 h-0.5 bg-primary"
+                    transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
                   />
-                </span>
+                </div>
               </div>
             </motion.div>
 

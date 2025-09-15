@@ -6,9 +6,10 @@ import { useInView } from 'react-intersection-observer';
 import { FiExternalLink, FiGithub, FiEye, FiArrowRight } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { Button } from '@/components/common';
 
 interface Project {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -82,7 +83,7 @@ export function ProjectsSection(): JSX.Element {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {displayedProjects.map((project, index) => (
             <motion.div
-              key={project._id}
+              key={project.id}
               initial={{ opacity: 0, y: 50 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: index * 0.1, duration: 0.6 }}
@@ -163,7 +164,7 @@ export function ProjectsSection(): JSX.Element {
                     <FiEye className="w-4 h-4" />
                     Live Demo
                   </motion.a>
-                  <Link href={`/projects/${project._id}`}>
+                  <Link href={`/projects/${project.id}`}>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -211,6 +212,16 @@ export function ProjectsSection(): JSX.Element {
             </motion.button>
           </motion.div>
         )}
+
+        {/* View All Projects Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="text-center mt-12"
+        >
+          <Button href="/projects">View All Projects</Button>
+        </motion.div>
       </div>
     </section>
   );
