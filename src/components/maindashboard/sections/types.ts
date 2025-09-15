@@ -36,5 +36,4 @@ export interface ContactSectionProps extends SectionProps {
 }
 
 // Import types from other modules
-import { Project } from '@/app/projects/types';
-import { Skill } from '@/app/skills/types';
+import { Project, Skill } from '@/types';
