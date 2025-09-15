@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME || 'portfolio';
 
-if (!MONGODB_URI) {
+// Only throw error during runtime, not during build
+if (!MONGODB_URI && typeof window === 'undefined' && process.env.NODE_ENV !== 'production') {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
@@ -24,6 +25,11 @@ if (!global.mongoose) {
 }
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
+  // Return early if no MongoDB URI is available (e.g., during build)
+  if (!MONGODB_URI) {
+    throw new Error('MONGODB_URI is not defined');
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -34,7 +40,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
       dbName: MONGODB_DB_NAME,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
   }

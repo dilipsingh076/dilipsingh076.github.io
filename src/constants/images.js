@@ -6,7 +6,7 @@ import phone from "../assets/phone.png"
 import ideakart from "../assets/ideakart.png"
 import zara from "../assets/zara.png"
 
-export default {
+const images = {
     dilip,
     email,
     logo,
@@ -14,4 +14,6 @@ export default {
     phone,
     ideakart,
     zara,
-}
+};
+
+export default images;
