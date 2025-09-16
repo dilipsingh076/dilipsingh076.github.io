@@ -9,6 +9,9 @@ npm run export
 # Go to out directory
 cd out
 
+# Remove any accidental node_modules or .next folders
+rm -rf node_modules .next
+
 # Initialize a new git repo in out/
 git init
 git remote add origin https://github.com/dilipsingh076/dilipsingh076.github.io.git
