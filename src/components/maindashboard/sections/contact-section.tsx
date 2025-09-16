@@ -3,36 +3,31 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheck, FiAlertCircle } from 'react-icons/fi';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { submitContactForm, clearError, clearSuccess } from '@/store/slices/contactSlice';
-import { ContactForm } from '@/store/slices/contactSlice';
 import { Button } from '@/components/common';
-
 export function ContactSection(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const { loading, error, success } = useAppSelector((state: any) => state.contact);
-  
-  const [formData, setFormData] = useState<ContactForm>({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
     phone: '',
-    company: '',
+    company: ''
   });
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   // Clear error and success messages after 5 seconds
   useEffect(() => {
     if (error || success) {
       const timer = setTimeout(() => {
-        if (error) dispatch(clearError());
-        if (success) dispatch(clearSuccess());
+        setError(null);
+        setSuccess(false);
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [error, success, dispatch]);
+  }, [error, success]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -40,6 +35,32 @@ export function ContactSection(): JSX.Element {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // Simulate form submission for static site
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        phone: '',
+        company: ''
+      });
+      setTouched({});
+    } catch (err) {
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBlur = (field: string) => {
@@ -64,30 +85,15 @@ export function ContactSection(): JSX.Element {
     return errors.length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) {
       return;
     }
 
-    try {
-      await dispatch(submitContactForm(formData)).unwrap();
-      
-      // Reset form on success
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        phone: '',
-        company: '',
-      });
-      setTouched({});
-    } catch (error) {
-      // Error is handled by Redux slice
-      console.error('Contact form submission failed:', error);
-    }
+    await handleSubmit(e);
+    setTouched({});
   };
 
   const contactInfo = [
@@ -211,7 +217,7 @@ export function ContactSection(): JSX.Element {
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleFormSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">

@@ -1,121 +1,130 @@
-# Deployment Guide for Vercel
+# GitHub Pages Deployment Guide
 
-This guide explains how to properly deploy your Next.js portfolio to Vercel with environment variables.
+This project has been configured for static deployment on GitHub Pages. All API-related functionality has been removed and replaced with static data from constants files.
 
-## Environment Variables Setup
+## Prerequisites
 
-Since you're not committing `.env.local` (which is correct for security), you need to configure environment variables in Vercel.
+- Node.js 18+ installed
+- Git configured with your GitHub credentials
+- Repository set up on GitHub
 
-### 1. Vercel Dashboard Setup
+## Deployment Steps
 
-1. Go to your Vercel dashboard
-2. Select your project
-3. Go to **Settings** → **Environment Variables**
-4. Add the following environment variables:
-
-```
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
-MONGODB_DB_NAME=portfolio
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
-ADMIN_EMAIL=admin@example.com
-NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
-NEXT_PUBLIC_API_URL=https://your-domain.vercel.app/api
-OPENAI_API_KEY=your-openai-api-key
-SENDGRID_API_KEY=your-sendgrid-api-key
-RESEND_API_KEY=your-resend-api-key
-NODE_ENV=production
-```
-
-### 2. Environment Variable Types
-
-- **Production**: For production deployments
-- **Preview**: For preview deployments (pull requests)
-- **Development**: For local development (optional)
-
-Make sure to set all variables for **Production** environment.
-
-## Deployment Methods
-
-### Method 1: Automatic Deployment (Recommended)
-
-1. Connect your GitHub repository to Vercel
-2. Push to your `vercel-master` branch
-3. Vercel will automatically build and deploy
-
-### Method 2: Manual Deployment Script
+### 1. Install Dependencies
 
 ```bash
-# Run the deployment script
-./deploy-vercel.sh
+npm install
 ```
 
-### Method 3: GitHub Actions (Optional)
+### 2. Build the Static Site
 
-The repository includes GitHub Actions workflows:
+```bash
+npm run build
+```
 
-- `build-validation.yml`: Validates builds on push/PR
-- `deploy.yml`: Full deployment to Vercel (requires additional setup)
+This will create a static export in the `out/` directory.
 
-## Build Process
+### 3. Deploy to GitHub Pages
 
-The build process is configured to:
+#### Option A: Using the deployment script (Recommended)
 
-1. ✅ Handle missing environment variables gracefully during build
-2. ✅ Use Vercel's environment variables during runtime
-3. ✅ Pass all linting and type checking
-4. ✅ Generate optimized production build
+```bash
+./deploy-github-pages.sh
+```
+
+#### Option B: Manual deployment
+
+```bash
+# Create .nojekyll file
+touch out/.nojekyll
+
+# Add files to git
+git add out/
+
+# Commit changes
+git commit -m "Deploy to GitHub Pages"
+
+# Push to gh-pages branch
+git subtree push --prefix out origin gh-pages
+```
+
+### 4. Configure GitHub Pages
+
+1. Go to your repository settings on GitHub
+2. Navigate to "Pages" section
+3. Set source to "Deploy from a branch"
+4. Select "gh-pages" branch
+5. Set folder to "/ (root)"
+
+## Project Structure
+
+### Static Data Sources
+
+All data is now sourced from constants files:
+
+- **Projects**: `src/components/projects/constants/projects-page-data.ts`
+- **Skills**: `src/components/skills/constants/skills-page-data.ts`
+- **Blog**: `src/components/blog/constants/blog-page-data.ts`
+- **About**: `src/components/about/constants/about-page-data.ts`
+
+### Removed Components
+
+The following have been removed for static deployment:
+
+- Redux store and slices
+- API services and routes
+- Admin functionality
+- Database models
+- Vercel deployment configs
+
+### Updated Components
+
+- All components now use static data from constants
+- Hooks updated to work with static data
+- Contact form simulates submission (no actual email sending)
+
+## Customization
+
+To update the content:
+
+1. Edit the appropriate constants file in `src/components/*/constants/`
+2. Rebuild and redeploy
 
 ## Troubleshooting
 
-### Build Fails with MongoDB Error
+### Build Issues
 
-If you see MongoDB connection errors during build:
+- Ensure all imports are correct
+- Check that constants files export the required data
+- Verify TypeScript types match
 
-1. Ensure all environment variables are set in Vercel dashboard
-2. Check that `MONGODB_URI` is correctly formatted
-3. Verify database permissions
+### Deployment Issues
 
-### Environment Variables Not Working
+- Ensure you have push access to the repository
+- Check that the gh-pages branch exists
+- Verify GitHub Pages is enabled in repository settings
 
-1. Check Vercel dashboard → Settings → Environment Variables
-2. Ensure variables are set for the correct environment (Production)
-3. Redeploy after adding new variables
+## Local Development
 
-### GitHub Actions Fails
+```bash
+# Start development server
+npm run dev
 
-If using GitHub Actions deployment:
+# Build for production
+npm run build
 
-1. Add required secrets to GitHub repository:
-   - `VERCEL_TOKEN`
-   - `ORG_ID`
-   - `PROJECT_ID`
-2. Or use the simpler `build-validation.yml` workflow
+# Type check
+npm run type-check
 
-## Security Notes
-
-- ✅ `.env.local` is properly ignored in `.gitignore`
-- ✅ Environment variables are stored securely in Vercel
-- ✅ No sensitive data is committed to the repository
-- ✅ Build process works without local environment variables
-
-## File Structure
-
-```
-├── .github/workflows/
-│   ├── build-validation.yml    # Build validation only
-│   └── deploy.yml             # Full deployment (optional)
-├── .gitignore                 # Properly ignores .env.local
-├── vercel.json               # Vercel configuration
-├── deploy-vercel.sh          # Manual deployment script
-└── env.template              # Template for local development
+# Lint code
+npm run lint
 ```
 
-## Next Steps
+## Features
 
-1. Set up environment variables in Vercel dashboard
-2. Push to `vercel-master` branch
-3. Monitor deployment in Vercel dashboard
-4. Test your deployed application
-
-Your application is now ready for secure deployment to Vercel! 🚀
+- ✅ Static site generation
+- ✅ Responsive design
+- ✅ Dark/light theme support
+- ✅ SEO optimized
+- ✅ Fast loading
+- ✅ GitHub Pages compatible

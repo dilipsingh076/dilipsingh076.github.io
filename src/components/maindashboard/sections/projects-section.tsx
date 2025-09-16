@@ -7,18 +7,7 @@ import { FiExternalLink, FiGithub, FiEye, FiArrowRight } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from '@/components/common';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  technologies: string[];
-  githubUrl: string;
-  liveUrl: string;
-  featured: boolean;
-  category: string;
-}
+import { PROJECTS_DATA, Project } from '@/components/projects/constants';
 
 export function ProjectsSection(): JSX.Element {
   const [ref, inView] = useInView({
@@ -31,19 +20,9 @@ export function ProjectsSection(): JSX.Element {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      const fetchProjects = async () => {
-    try {
-      const response = await fetch('/api/projects/');
-      const data = await response.json();
-      setProjects(data);
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-    fetchProjects();
+    // Use static data directly
+    setProjects(PROJECTS_DATA);
+    setLoading(false);
   }, []);
 
   const displayedProjects = showAll ? projects : projects.filter(project => project.featured);

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FiArrowLeft, FiDownload, FiMail, FiLinkedin, FiGithub, FiMapPin, FiCalendar, FiAward } from 'react-icons/fi';
+import { FiDownload, FiMail, FiLinkedin, FiGithub, FiMapPin, FiCalendar, FiAward } from 'react-icons/fi';
 import { EXPERIENCES, EDUCATION, ACHIEVEMENTS, PERSONAL_INFO } from '@/components/maindashboard/constants';
 import { ABOUT_PAGE_CONTENT } from './constants';
 import { Logo } from '@/components/ui/logo';

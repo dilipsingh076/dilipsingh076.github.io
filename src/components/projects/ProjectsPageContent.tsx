@@ -12,34 +12,10 @@ export function ProjectsPageContent(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch projects from API with fallback to dummy data
+  // Use static data directly
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        // Try to fetch from API first
-        const response = await fetch('/api/projects');
-        
-        if (response.ok) {
-          const apiProjects = await response.json();
-          setProjects(apiProjects);
-        } else {
-          // If API fails, use fallback data
-          console.warn('API fetch failed, using fallback data');
-          setProjects(PROJECTS_DATA);
-        }
-      } catch (error) {
-        // If API is not available or fails, use fallback data
-        console.warn('API not available, using fallback data:', error);
-        setProjects(PROJECTS_DATA);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
+    setProjects(PROJECTS_DATA);
+    setLoading(false);
   }, []);
 
   const filteredProjects = selectedCategory === 'All' 

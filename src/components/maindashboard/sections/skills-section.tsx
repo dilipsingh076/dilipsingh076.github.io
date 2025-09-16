@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/common';
 import { SKILL_CATEGORIES, SKILLS_CONTENT, PROFICIENCY_COLORS, PROGRESS_COLORS } from '../constants';
-import { useSkillsData } from '@/hooks';
+import { SKILL_CATEGORIES as SKILLS_CATEGORIES, SKILLS_OVERVIEW } from '@/components/skills/constants';
 
 // Local interface for skills section (includes id and category)
 interface SkillWithMeta {
@@ -24,33 +24,24 @@ export function SkillsSection(): JSX.Element {
   });
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [skills, setSkills] = useState<SkillWithMeta[]>([]);
-  const { data: skillsData, loading, error } = useSkillsData();
-
-  useEffect(() => {
-    if (skillsData) {
-      // Map category titles to maindashboard category IDs
-      const categoryMapping: { [key: string]: string } = {
-        'Frontend Development': 'frontend',
-        'Backend Development': 'backend',
-        'Database & Cloud': 'database',
-        'Mobile Development': 'frontend', // Map mobile to frontend for now
-        'Tools & Technologies': 'tools',
-      };
-      
-      // Flatten all skills from categories into a single array
-      const allSkills: SkillWithMeta[] = skillsData.categories.flatMap(category => 
-        category.skills.map(skill => ({
-          ...skill,
-          id: `${category.title.toLowerCase().replace(/\s+/g, '-')}-${skill.name.toLowerCase().replace(/\s+/g, '-')}`,
-          category: categoryMapping[category.title] || 'tools'
-        }))
-      );
-      setSkills(allSkills);
-    } else {
-      setSkills([]);
-    }
-  }, [skillsData]);
+  
+  // Map category titles to maindashboard category IDs
+  const categoryMapping: { [key: string]: string } = {
+    'Frontend Development': 'frontend',
+    'Backend Development': 'backend',
+    'Database & Cloud': 'database',
+    'Mobile Development': 'frontend', // Map mobile to frontend for now
+    'Tools & Technologies': 'tools',
+  };
+  
+  // Flatten all skills from categories into a single array
+  const skills: SkillWithMeta[] = SKILLS_CATEGORIES.flatMap(category => 
+    category.skills.map(skill => ({
+      ...skill,
+      id: `${category.title.toLowerCase().replace(/\s+/g, '-')}-${skill.name.toLowerCase().replace(/\s+/g, '-')}`,
+      category: categoryMapping[category.title] || 'tools'
+    }))
+  );
 
   const filteredSkills = selectedCategory === 'all' 
     ? skills 
@@ -70,18 +61,6 @@ export function SkillsSection(): JSX.Element {
     return SKILLS_CONTENT.proficiency.labels.beginner;
   };
 
-  if (loading) {
-    return (
-      <section id="skills" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-3 border-blue-600 border-t-transparent mx-auto"></div>
-            <p className="mt-6 text-lg text-gray-600">{SKILLS_CONTENT.loading.text}</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="skills" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">

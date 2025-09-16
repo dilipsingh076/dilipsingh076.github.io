@@ -13,40 +13,13 @@ import {
   SkillCategory,
   Skill
 } from './constants';
-import { useSkillsData } from '@/hooks';
 import { Logo } from '@/components/ui/logo';
 
 export function SkillsPageContent(): JSX.Element {
-  const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
-  const [skillsOverview, setSkillsOverview] = useState<Skill[]>([]);
-  const { data: skillsData, loading, error } = useSkillsData();
+  // Use constants directly
+  const skillCategories = SKILL_CATEGORIES;
+  const skillsOverview = SKILLS_OVERVIEW;
 
-  // Update state when data is available
-  useEffect(() => {
-    if (skillsData) {
-      setSkillCategories(skillsData.categories || SKILL_CATEGORIES);
-      setSkillsOverview(skillsData.overview || SKILLS_OVERVIEW);
-    } else {
-      // Use fallback data if no API data
-      setSkillCategories(SKILL_CATEGORIES);
-      setSkillsOverview(SKILLS_OVERVIEW);
-    }
-  }, [skillsData]);
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="pt-16">
-        <div className="container-max px-4 py-16 text-center">
-          <div className="flex justify-center mb-6">
-            <Logo animate={true} size="xl" />
-          </div>
-          <div className="animate-spin rounded-full h-12 w-12 border-3 border-primary border-t-transparent mx-auto mb-4"></div>
-          <p className="text-lg text-muted-foreground">Loading skills...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-16">

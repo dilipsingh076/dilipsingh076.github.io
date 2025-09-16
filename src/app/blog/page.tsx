@@ -1,37 +1,68 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
-import { useBlog } from '@/hooks/useBlog';
+import { 
+  BLOG_POSTS, 
+  getFeaturedPosts, 
+  getPostsByCategory, 
+  getAllCategories 
+} from '@/components/blog/constants';
 import { 
   BlogCard, 
   BlogFilters, 
   Pagination, 
-  LoadingState, 
-  ErrorState, 
   EmptyState 
 } from '@/features/blog';
 import { Button } from '@/shared/components';
 import { Logo } from '@/components/ui/logo';
 
-const categories = ['All', 'Architecture', 'AI/ML', 'Performance', 'Real-time', 'Next.js', 'Trends'];
-
 export default function BlogPage(): JSX.Element {
-  const {
-    posts,
-    featuredPosts,
-    loading,
-    error,
-    selectedCategory,
-    searchQuery,
-    totalPages,
-    currentPage,
-    handleCategoryChange,
-    handleSearchChange,
-    handlePageChange,
-    refetch
-  } = useBlog();
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
+
+  const categories = getAllCategories();
+  const featuredPosts = getFeaturedPosts();
+
+  const filteredPosts = useMemo(() => {
+    let posts = getPostsByCategory(selectedCategory);
+    
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      posts = posts.filter(post => 
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query))
+      );
+    }
+    
+    return posts;
+  }, [selectedCategory, searchQuery]);
+
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const posts = useMemo(() => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return filteredPosts.slice(startIndex, endIndex);
+  }, [filteredPosts, currentPage, postsPerPage]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -101,11 +132,7 @@ export default function BlogPage(): JSX.Element {
             Latest <span className="gradient-text">Articles</span>
           </h2>
           
-          {loading ? (
-            <LoadingState />
-          ) : error ? (
-            <ErrorState error={error} onRetry={refetch} />
-          ) : posts.length === 0 ? (
+          {posts.length === 0 ? (
             <EmptyState />
           ) : (
             <>
