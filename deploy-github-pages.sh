@@ -1,7 +1,5 @@
 #!/bin/bash
-
-# GitHub Pages Deployment Script
-# This script builds the static site and deploys it to GitHub Pages
+set -e
 
 echo "🚀 Starting GitHub Pages deployment..."
 
@@ -25,7 +23,7 @@ git add out/
 
 # Commit the changes
 echo "💾 Committing changes..."
-git commit -m "Deploy to GitHub Pages - $(date)"
+git commit -m "Deploy to GitHub Pages - $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
 
 # Push to gh-pages branch
 echo "🚀 Pushing to GitHub Pages..."

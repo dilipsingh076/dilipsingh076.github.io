@@ -1,60 +1,40 @@
 # GitHub Pages Deployment Guide
 
-This project has been configured for static deployment on GitHub Pages. All API-related functionality has been removed and replaced with static data from constants files.
+This project has been configured for automatic deployment on GitHub Pages using GitHub Actions. All API-related functionality has been removed and replaced with static data from constants files.
 
 ## Prerequisites
 
 - Node.js 18+ installed
 - Git configured with your GitHub credentials
 - Repository set up on GitHub
+- GitHub Pages enabled in repository settings
 
-## Deployment Steps
+## Automatic Deployment
 
-### 1. Install Dependencies
+The project is configured with GitHub Actions for automatic deployment. When you push code to the `master` branch, it will automatically:
 
-```bash
-npm install
-```
+1. Build the Next.js static site
+2. Deploy to GitHub Pages
 
-### 2. Build the Static Site
+### Setup GitHub Pages
 
-```bash
-npm run build
-```
+1. Go to your repository settings on GitHub
+2. Navigate to "Pages" section
+3. Set source to "GitHub Actions"
+4. The workflow will automatically deploy when you push to master
 
-This will create a static export in the `out/` directory.
+## Manual Deployment (Optional)
 
-### 3. Deploy to GitHub Pages
-
-#### Option A: Using the deployment script (Recommended)
+If you need to deploy manually, you can use the deployment script:
 
 ```bash
 ./deploy-github-pages.sh
 ```
 
-#### Option B: Manual deployment
-
-```bash
-# Create .nojekyll file
-touch out/.nojekyll
-
-# Add files to git
-git add out/
-
-# Commit changes
-git commit -m "Deploy to GitHub Pages"
-
-# Push to gh-pages branch
-git subtree push --prefix out origin gh-pages
-```
-
-### 4. Configure GitHub Pages
-
-1. Go to your repository settings on GitHub
-2. Navigate to "Pages" section
-3. Set source to "Deploy from a branch"
-4. Select "gh-pages" branch
-5. Set folder to "/ (root)"
+This script will:
+1. Build the static site
+2. Create a .nojekyll file
+3. Deploy to the gh-pages branch
 
 ## Project Structure
 

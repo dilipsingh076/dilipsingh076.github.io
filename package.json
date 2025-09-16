@@ -12,8 +12,8 @@
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "export": "next build && next export",
-    "deploy": "./deploy-github-pages-alt.sh"
+    "export": "next build",
+    "deploy": "./deploy-github-pages.sh"
   },
   "dependencies": {
     "@emailjs/browser": "^3.7.0",
