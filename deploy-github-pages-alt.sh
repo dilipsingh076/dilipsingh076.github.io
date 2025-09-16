@@ -3,8 +3,8 @@ set -e
 
 echo "🚀 Starting GitHub Pages deployment (static export)..."
 
-# Build static site
-npm run export
+# Build static site (now outputs to 'out' with output: 'export')
+npm run build
 
 # Go to out directory
 cd out
