@@ -1,0 +1,27 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dilipsingh076.github.io/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /test-*
+
+# Allow important pages
+Allow: /
+Allow: /about/
+Allow: /projects/
+Allow: /skills/
+Allow: /blog/
+Allow: /contact/
+
+# Block duplicate content
+Disallow: /*.txt$
+Disallow: /*.html$
