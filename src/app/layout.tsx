@@ -9,7 +9,6 @@ import { SideIcons } from '@/components/ui/side-icons';
 import { Footer } from '@/components/ui/footer';
 
 import { Inter } from 'next/font/google';
-import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -97,7 +96,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  redirect('https://dilipsingh076.vercel.app');
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
