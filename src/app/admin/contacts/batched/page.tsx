@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Trash2, Mail, User, MessageSquare, Calendar, Phone, Building, Search, Filter, Eye, EyeOff, MessageCircle, Clock } from 'lucide-react';
 import ReplyModal from '@/components/admin/reply-modal';
 import { BatchedContact, ILegacyContact } from '../types';
@@ -24,11 +24,7 @@ const BatchedContactsManagement = () => {
     fetchBatchedContacts();
   }, []);
 
-  useEffect(() => {
-    filterAndSortContacts();
-  }, [batchedContacts, searchTerm, statusFilter, sortBy]);
-
-  const filterAndSortContacts = () => {
+  const filterAndSortContacts = useCallback(() => {
     let filtered = batchedContacts;
 
     // Apply search filter
@@ -63,7 +59,11 @@ const BatchedContactsManagement = () => {
     });
 
     setFilteredContacts(filtered);
-  };
+  }, [batchedContacts, searchTerm, statusFilter, sortBy]);
+
+  useEffect(() => {
+    filterAndSortContacts();
+  }, [filterAndSortContacts]);
 
   const fetchBatchedContacts = async () => {
     try {

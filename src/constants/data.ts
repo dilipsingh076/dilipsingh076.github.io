@@ -6,12 +6,12 @@ export const PERSONAL_INFO = {
   email: 'dilipsinghf@gmail.com',
   phone: '+91 7665 135 229',
   location: 'Thane, Maharashtra',
-  about: `Full Stack Developer with 4+ years of experience in designing, developing, and maintaining scalable web applications. 
+  about: `Full Stack Developer with 5+ years of experience in designing, developing, and maintaining scalable web applications. 
   Proficient in front-end (React.js, Next.js, JavaScript, TypeScript) and back-end (Node.js, Express, REST API, FastAPI) 
   with strong expertise in database management to optimize performance. Experienced in leading multiple projects simultaneously 
   and managing a team of developers to ensure timely, high-quality delivery. Skilled at delivering reliable, user-focused 
   solutions with attention to detail, creativity, and clean code practices.`,
-  resumeUrl: 'https://drive.google.com/file/d/1Mwrh97qficLDATyJX9lYoA-XJKWrtjut/view?usp=sharing',
+  resumeUrl: 'https://drive.google.com/file/d/1jpDbIRyiBQ4B0RALJmg0UvT-G5TdSG5T/view?usp=sharing',
   linkedin: 'https://www.linkedin.com/in/dilip-singh-fauzdar/',
   github: 'https://dilipsingh076.github.io',
   twitter: 'https://twitter.com/dilipsinghf',
@@ -28,11 +28,11 @@ export const SOCIAL_LINKS: SocialLink[] = [
     url: 'https://www.linkedin.com/in/dilip-singh-fauzdar/',
     icon: 'linkedin',
   },
-  {
-    name: 'Portfolio',
-    url: 'https://dilipsingh076.github.io',
-    icon: 'portfolio',
-  },
+  // {
+  //   name: 'Portfolio',
+  //   url: 'https://dilipsingh076.github.io',
+  //   icon: 'portfolio',
+  // },
 ];
 
 export const SKILLS: Skill[] = [
@@ -74,99 +74,6 @@ export const SKILLS: Skill[] = [
   { name: 'Version Control', icon: 'git', category: 'devops', proficiency: 90 },
 ];
 
-export const PROJECTS: Project[] = [
-  {
-    id: '1',
-    title: 'Intelligage.io',
-    description: 'AI-powered insights platform built with React.js and GraphQL. Leading the development of intelligent analytics dashboard with real-time data visualization and AI-driven insights.',
-    image: '/images/portfolio.png',
-    technologies: ['React.js', 'GraphQL', 'TypeScript', 'Node.js', 'MongoDB'],
-    githubUrl: 'https://github.com/dilipsingh076/intelligage',
-    liveUrl: 'https://intelligage.io',
-    featured: true,
-    category: 'Web App',
-  },
-  {
-    id: '2',
-    title: 'PDMI Project',
-    description: 'Comprehensive project management system using React.js with micro frontends (single-spa-react). Integrated RESTful APIs and react-jsonschema-form for dynamic form handling.',
-    image: '/images/portfolio.png',
-    technologies: ['React.js', 'Single SPA', 'REST API', 'React JSON Schema Form', 'Node.js'],
-    githubUrl: 'https://github.com/dilipsingh076/pdmi',
-    liveUrl: 'https://pdmi-project.com',
-    featured: true,
-    category: 'Dashboard',
-  },
-  {
-    id: '3',
-    title: 'Infiniti Possibilities',
-    description: 'AI-based application allowing users to search queries across multiple LLM models from a single interface. Modernized legacy codebase with user-friendly UI for multi-model results.',
-    image: '/images/portfolio.png',
-    technologies: ['React.js', 'AI/ML', 'TypeScript', 'Node.js', 'FastAPI'],
-    githubUrl: 'https://github.com/dilipsingh076/infiniti',
-    liveUrl: 'https://infiniti-possibilities.com',
-    featured: true,
-    category: 'AI/ML',
-  },
-  {
-    id: '4',
-    title: 'Waltz AI',
-    description: 'Implemented Cal.com API integration for seamless meeting scheduling with Google Calendar and Zoom connectivity. Built dynamic availability management and timezone handling.',
-    image: '/images/portfolio.png',
-    technologies: ['React.js', 'Cal.com API', 'Google Calendar', 'Zoom API', 'Node.js'],
-    githubUrl: 'https://github.com/dilipsingh076/waltz-ai',
-    liveUrl: 'https://waltz-ai.com',
-    featured: false,
-    category: 'Web App',
-  },
-  {
-    id: '5',
-    title: 'All Talk Chat',
-    description: 'Real-time chat application supporting one-on-one text, audio, and video communication using Socket.io and WebRTC. Features room-based architecture with gender-based filtering.',
-    image: '/images/portfolio.png',
-    technologies: ['React.js', 'Socket.io', 'WebRTC', 'Node.js', 'MongoDB'],
-    githubUrl: 'https://github.com/dilipsingh076/all-talk-chat',
-    liveUrl: 'https://all-talk-chat.com',
-    featured: false,
-    category: 'Real-time',
-  },
-  {
-    id: '6',
-    title: 'CFA Art College',
-    description: 'Web application for College of Fine Arts, Bengaluru, managing student enrollments, faculty details, courses, and gallery showcases. Role-based access with responsive design.',
-    image: '/images/portfolio.png',
-    technologies: ['React.js', 'Node.js', 'MongoDB', 'Express', 'Bootstrap'],
-    githubUrl: 'https://github.com/dilipsingh076/cfa-art',
-    liveUrl: 'https://cfa-art-college.com',
-    featured: false,
-    category: 'Web App',
-  },
-  {
-    id: '7',
-    title: 'Ideakart Clone',
-    description: 'Innovative book-selling website aggregating listings from Flipkart, Amazon, and other platforms. Simplifies book search process with consolidated options.',
-    image: '/images/ideakart.png',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Redux'],
-    githubUrl: 'https://github.com/POPEYE-jpg/Ideakart',
-    liveUrl: 'https://ideakkart-clone.netlify.app/',
-    featured: false,
-    category: 'E-commerce',
-  },
-  {
-    id: '8',
-    title: 'Zara Clone',
-    description: 'E-commerce website for fashion retail, specializing in fast fashion with clothing, accessories, shoes, and beauty products.',
-    image: '/images/zara.png',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Stripe', 'Node.js'],
-    githubUrl: 'https://github.com/ashelake/truculent-pie-36',
-    liveUrl: 'https://zaranew-clone.netlify.app/',
-    featured: false,
-    category: 'E-commerce',
-  },
-];
-
-// Export projectsData for backward compatibility
-export const projectsData = PROJECTS;
 
 export const EXPERIENCES: Experience[] = [
   {
@@ -237,7 +144,7 @@ export const EDUCATION: Education[] = [
 export const ACHIEVEMENTS: Achievement[] = [
   {
     id: '1',
-    title: '4+ Years Experience',
+    title: '5+ Years Experience',
     description: 'Successfully delivered 20+ projects across various domains',
     date: '2020 - Present',
     icon: 'experience',

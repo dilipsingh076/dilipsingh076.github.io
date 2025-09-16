@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Trash2, Mail, User, MessageSquare, Calendar, Phone, Building, Search, Filter, Eye, EyeOff, MessageCircle, Clock, Send, ArrowLeft } from 'lucide-react';
 import ReplyModal from '@/components/admin/reply-modal';
 import { IContact, IMessage } from './types';
@@ -26,10 +26,6 @@ const ContactsManagement = () => {
   }, []);
 
   useEffect(() => {
-    filterAndSortContacts();
-  }, [contacts, searchTerm, statusFilter, sortBy]);
-
-  useEffect(() => {
     scrollToBottom();
   }, [selectedContact]);
 
@@ -37,7 +33,7 @@ const ContactsManagement = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const filterAndSortContacts = () => {
+  const filterAndSortContacts = useCallback(() => {
     let filtered = contacts;
 
     // Apply search filter
@@ -72,7 +68,11 @@ const ContactsManagement = () => {
     });
 
     setFilteredContacts(filtered);
-  };
+  }, [contacts, searchTerm, statusFilter, sortBy]);
+
+  useEffect(() => {
+    filterAndSortContacts();
+  }, [filterAndSortContacts]);
 
   const fetchContacts = async () => {
     try {

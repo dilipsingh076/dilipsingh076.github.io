@@ -1,9 +1,9 @@
-import { PROJECTS } from '@/constants/data';
-import { ProjectDetailClient } from './project-detail-client';
+import { PROJECTS_DATA } from '@/components/projects/constants';
+import { ProjectDetailPage } from '@/components/project-detail';
 
 // Generate static params for static export
 export function generateStaticParams() {
-  return PROJECTS.map((project) => ({
+  return PROJECTS_DATA.map((project) => ({
     id: project.id,
   }));
 }
@@ -14,8 +14,8 @@ interface ProjectDetailPageProps {
   };
 }
 
-export default function ProjectDetailPage({ params }: ProjectDetailPageProps): JSX.Element {
-  const project = PROJECTS.find(p => p.id === params.id);
+export default function ProjectDetail({ params }: ProjectDetailPageProps): JSX.Element {
+  const project = PROJECTS_DATA.find(p => p.id === params.id);
 
-  return <ProjectDetailClient project={project} />;
+  return <ProjectDetailPage project={project} />;
 }

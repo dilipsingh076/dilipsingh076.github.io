@@ -23,23 +23,34 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [blogsRes, skillsRes, projectsRes, contactsRes] = await Promise.all([
+        // Use cached skills data if available, otherwise fetch
+        let skillsCount = 0;
+        try {
+          const skillsRes = await fetch('/api/skills');
+          if (skillsRes.ok) {
+            const skillsData = await skillsRes.json();
+            skillsCount = skillsData.categories?.reduce((total: number, category: any) => 
+              total + (category.skills?.length || 0), 0) || 0;
+          }
+        } catch (error) {
+          console.warn('Failed to fetch skills count:', error);
+        }
+
+        const [blogsRes, projectsRes, contactsRes] = await Promise.all([
           fetch('/api/blog/'),
-          fetch('/api/skills/'),
           fetch('/api/projects/'),
           fetch('/api/contact/submissions/'),
         ]);
 
-        const [blogs, skills, projects, contacts] = await Promise.all([
+        const [blogs, projects, contacts] = await Promise.all([
           blogsRes.json(),
-          skillsRes.json(),
           projectsRes.json(),
           contactsRes.json(),
         ]);
 
         setStats({
           blogs: blogs.length,
-          skills: skills.length,
+          skills: skillsCount,
           projects: projects.length,
           contacts: contacts.length,
         });

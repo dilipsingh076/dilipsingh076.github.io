@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # or the branch you want to deploy
+      - vercel-master  # or the branch you want to deploy
 
 jobs:
   build-and-deploy:
